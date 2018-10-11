@@ -45,6 +45,7 @@ public class MainActivity extends Activity {
                             Log.d("SCREEN_TOGGLE_TAG", "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
+                            
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("SCREEN_TOGGLE_TAG", "signInWithEmail:failure", task.getException());
