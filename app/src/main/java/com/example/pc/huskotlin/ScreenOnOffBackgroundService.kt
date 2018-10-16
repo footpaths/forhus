@@ -41,6 +41,9 @@ class ScreenOnOffBackgroundService : Service() {
         // Register the broadcast receiver with the intent filter object.
         registerReceiver(screenOnOffReceiver, intentFilter)
 
+
+        MainActivity.instance.hideIcon()
+
         Log.d("SCREEN_TOGGLE_TAG", "Service onCreate: screenOnOffReceiver is registered.")
     }
 
