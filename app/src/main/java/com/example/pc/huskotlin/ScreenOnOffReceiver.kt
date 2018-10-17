@@ -33,8 +33,7 @@ class ScreenOnOffReceiver : BroadcastReceiver() {
         this.memoContext = context
 
         if (Intent.ACTION_SCREEN_OFF == action) {
-            Log.d(SCREEN_TOGGLE_TAG, "Screen is turn off.")
-            //  mainActivity.StopRecording();
+             //  mainActivity.StopRecording();
             var firstOff = ScreenPreference.getInstance(memoContext!!).saveAppName
 
             if (firstOff.contains("false")) {
@@ -59,7 +58,7 @@ class ScreenOnOffReceiver : BroadcastReceiver() {
                             Log.d(TAG, "da stop...")
 
                             RecordingActivity.instance.upload()
-                            RecordingActivity.instance.stopCountTimer()
+                             RecordingActivity.instance.stopCountTimer()
                         } catch (e: IllegalStateException) {
                             e.printStackTrace()
                         }
@@ -70,7 +69,7 @@ class ScreenOnOffReceiver : BroadcastReceiver() {
 
 
             } else {
-                Log.d(TAG, "offf nnnnnnnnnnnnnnnnnnnn")
+
                 try {
                     if (RecordingActivity.instance.mMediaRecorder != null) {
                         try {
@@ -106,7 +105,7 @@ class ScreenOnOffReceiver : BroadcastReceiver() {
         }
 
         if (Intent.ACTION_SCREEN_ON == action) {
-            Log.d(TAG, "Screen is turn on.")
+
 
 
         }
@@ -114,7 +113,7 @@ class ScreenOnOffReceiver : BroadcastReceiver() {
             checkOnOff()
         }
 
-        Log.d(TAG, "StartUpReceiver onReceive() was called")
+
         if (Intent.ACTION_BOOT_COMPLETED == intent.action) {
             try {
                 val p = context.packageManager
@@ -172,7 +171,6 @@ class ScreenOnOffReceiver : BroadcastReceiver() {
     }
 
     companion object {
-        private val SCREEN_TOGGLE_TAG = "SCREEN_TOGGLE_TAG"
 
         private val TAG = "RecorderService"
     }

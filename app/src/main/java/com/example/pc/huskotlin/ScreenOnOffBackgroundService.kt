@@ -31,6 +31,7 @@ class ScreenOnOffBackgroundService : Service() {
         // Add network connectivity change action.
         intentFilter.addAction("android.intent.action.SCREEN_ON")
         intentFilter.addAction("android.intent.action.SCREEN_OFF")
+        intentFilter.addAction("android.intent.action.USER_PRESENT")
 
         // Set broadcast receiver priority.
         intentFilter.priority = 100

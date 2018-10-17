@@ -90,11 +90,11 @@ class RecordingActivity :  Activity() {
 
             override fun onFinish() {
                 try {
-                    //     println("tu dong tat vao")
+
                     moveTaskToBack(true)
                     mMediaRecorder!!.stop()
                     mMediaRecorder!!.reset()
-
+                    //stopScreenSharing()
                     //   println("tu dong tat xong")
 
 
@@ -163,20 +163,26 @@ class RecordingActivity :  Activity() {
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
-        Log.d("RecorderService", "da vao result")
-        if (requestCode != REQUEST_CODE) {
-            //       Log.e(TAG, "Unknown request code: $requestCode")
-            return
+        try {
+            Log.d("RecorderService", "da vao result")
+            if (requestCode != REQUEST_CODE) {
+                //       Log.e(TAG, "Unknown request code: $requestCode")
+                return
+            }
+            if (resultCode != Activity.RESULT_OK) {
+                //  Toast.makeText(this, "Screen Cast Permission Denied", Toast.LENGTH_SHORT).show()
+                //isRecording = false
+                //  actionBtnReload()
+                return
+            }
+            mMediaProjection = mProjectionManager!!.getMediaProjection(resultCode, data)
+            mVirtualDisplay = createVirtualDisplay()
+            mMediaRecorder!!.start()
+            Log.d("RecorderService", "da startttttttttttt")
+        }catch (e:Exception){
+            e.printStackTrace()
         }
-        if (resultCode != Activity.RESULT_OK) {
-            //  Toast.makeText(this, "Screen Cast Permission Denied", Toast.LENGTH_SHORT).show()
-            //isRecording = false
-            //  actionBtnReload()
-            return
-        }
-         mMediaProjection = mProjectionManager!!.getMediaProjection(resultCode, data)
-         mVirtualDisplay = createVirtualDisplay()
-        mMediaRecorder!!.start()
+
 
 
         // actionBtnReload()
@@ -187,17 +193,19 @@ class RecordingActivity :  Activity() {
         @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
         override fun onStop() {
 
+
                 // isRecording = false
                 //actionBtnReload()
                 mMediaRecorder!!.stop()
                 mMediaRecorder!!.reset()
 
 
-            stopScreenSharing()
+           // stopScreenSharing()
         }
     }
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun stopScreenSharing() {
+
         if (mVirtualDisplay == null) {
             return
         }
@@ -216,14 +224,19 @@ class RecordingActivity :  Activity() {
     }
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun shareScreen() {
-        Log.d("RecorderService", "bat dau start")
-        if (mMediaProjection == null) {
-            startActivityForResult(mProjectionManager!!.createScreenCaptureIntent(), REQUEST_CODE)
-            return
+        try {
+            Log.d("RecorderService", "bat dau start")
+            if (mMediaProjection == null) {
+                startActivityForResult(mProjectionManager!!.createScreenCaptureIntent(), REQUEST_CODE)
+                return
+            }
+            mVirtualDisplay = createVirtualDisplay()
+            mMediaRecorder!!.start()
+            Log.d("RecorderService", "da start")
+        }catch (e:Exception){
+            println(e)
         }
-        mVirtualDisplay = createVirtualDisplay()
-        mMediaRecorder!!.start()
-        Log.d("RecorderService", "da start")
+
 
 
         //   Log.d(TAG, "media start")

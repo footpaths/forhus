@@ -5,15 +5,31 @@ import android.app.Activity
 import android.content.ComponentName
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Location
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.util.SparseIntArray
 import android.view.Surface
+import com.google.android.gms.common.api.GoogleApiClient
+
+
 
 class MainActivity :  Activity() {
+    private val TAG = MyLocationUsingHelper::class.java!!.getSimpleName()
 
+    private val PLAY_SERVICES_REQUEST = 1000
+    private val REQUEST_CHECK_SETTINGS = 2000
+
+    private val mLastLocation: Location? = null
+
+    // Google client to interact with Google API
+
+    private val mGoogleApiClient: GoogleApiClient? = null
+
+    var latitude: Double = 0.toDouble()
+    var longitude: Double = 0.toDouble()
     val MULTIPLE_PERMISSIONS = 10 // code you want.
     var permissions = arrayOf<String>(Manifest.permission.PROCESS_OUTGOING_CALLS,
             Manifest.permission.CALL_PHONE,
@@ -22,6 +38,8 @@ class MainActivity :  Activity() {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.ACCESS_NETWORK_STATE,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.RECORD_AUDIO)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
