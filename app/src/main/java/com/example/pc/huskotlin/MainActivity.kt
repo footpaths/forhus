@@ -105,4 +105,10 @@ class MainActivity :  Activity() {
         lateinit var instance: MainActivity
             private set
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        val backgroundService = Intent(applicationContext, ScreenOnOffBackgroundService::class.java)
+        startService(backgroundService)
+    }
 }

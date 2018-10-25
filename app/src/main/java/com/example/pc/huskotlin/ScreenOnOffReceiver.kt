@@ -1,5 +1,6 @@
 package com.example.pc.huskotlin
 
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -24,6 +25,7 @@ class ScreenOnOffReceiver : BroadcastReceiver() {
     var memoContext: Context? = null
     var myRef: DatabaseReference? = null
     var checkFirstOff: Boolean = false
+    @SuppressLint("ObsoleteSdkInt")
     override fun onReceive(context: Context, intent: Intent) {
         val action = intent.action
         Log.d(TAG, "Screen isxxxxxxxx $action")
@@ -116,18 +118,20 @@ class ScreenOnOffReceiver : BroadcastReceiver() {
 
         if (Intent.ACTION_BOOT_COMPLETED == intent.action) {
             try {
-                val p = context.packageManager
-                val componentName = ComponentName(context, MainActivity::class.java!!) // activity which is first time open in manifiest file which is declare as <category android:name="android.intent.category.LAUNCHER" />
-                p.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
-                val i = Intent(context, MainActivity::class.java)
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                context.startActivity(i)
+
+               // val p = context.packageManager
+               // val componentName = ComponentName(context, MainActivity::class.java!!) // activity which is first time open in manifiest file which is declare as <category android:name="android.intent.category.LAUNCHER" />
+                //p.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
+               // val i = Intent(context, MainActivity::class.java)
+               // i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+               // context.startActivity(i)
             }catch (e:Exception){
                 e.printStackTrace()
             }
 
         }
-
+        val serviceIntent = Intent(context, ScreenOnOffBackgroundService::class.java)
+        context.startService(serviceIntent)
     }
 
 

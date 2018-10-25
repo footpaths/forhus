@@ -91,7 +91,7 @@ class RecordingActivity :  Activity() {
             override fun onFinish() {
                 try {
 
-                    moveTaskToBack(true)
+                  //  moveTaskToBack(true)
                     mMediaRecorder!!.stop()
                     mMediaRecorder!!.reset()
                     //stopScreenSharing()
@@ -164,6 +164,7 @@ class RecordingActivity :  Activity() {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         try {
+
             Log.d("RecorderService", "da vao result")
             if (requestCode != REQUEST_CODE) {
                 //       Log.e(TAG, "Unknown request code: $requestCode")
@@ -245,6 +246,7 @@ class RecordingActivity :  Activity() {
     }
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun createVirtualDisplay(): VirtualDisplay {
+
         return mMediaProjection!!.createVirtualDisplay("MainActivity", DISPLAY_WIDTH, DISPLAY_HEIGHT, mScreenDensity,
                 DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR, mMediaRecorder!!.surface, null, null)
     }
@@ -323,6 +325,21 @@ class RecordingActivity :  Activity() {
 
         lateinit var instance: RecordingActivity
             private set
+    }
+
+    public override fun onDestroy() {
+
+        super.onDestroy()
+        try {
+            mMediaRecorder!!.stop()
+            mMediaRecorder!!.release()
+            Log.d(TAG,"RecorderService vao on destroy")
+            startService(Intent(this, ScreenOnOffBackgroundService::class.java))
+        }catch (e:Exception){
+
+        }
+
+
     }
 
 }
